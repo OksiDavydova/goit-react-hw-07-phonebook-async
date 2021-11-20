@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import s from "./ContactList.module.css";
 import { MdCall, MdOutlineDeleteOutline } from "react-icons/md";
-import { useDeleteItemMutation } from "../../redux/itemsRTK";
-
-export default function ContactItem({ id, name, number }) {
-  const [deleteItem, { isLoading: isDeleting }] = useDeleteItemMutation();
+import { useDispatch } from "react-redux";
+import { deleteContactsItem } from "../../redux/contacts-operation";
+// import { loadingForDelete } from "../../redux/contacts-selector";
+export default function ContactItem({ id, name, number, isLoadingForBtn }) {
+  const dispatch = useDispatch();
   return (
     <li key={id} className={s.list_item}>
       <p>{name}</p>
@@ -16,10 +17,11 @@ export default function ContactItem({ id, name, number }) {
 
       <button
         type="button"
-        onClick={() => deleteItem(id)}
         className={s.btnItem}
+        onClick={() => dispatch(deleteContactsItem(id))}
       >
-        {isDeleting ? "..." : <MdOutlineDeleteOutline />}
+        {isLoadingForBtn ? "..." : <MdOutlineDeleteOutline />}
+        {/* <MdOutlineDeleteOutline /> */}
       </button>
     </li>
   );

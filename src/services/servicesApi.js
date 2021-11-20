@@ -3,11 +3,11 @@ import axios from "axios";
 const API_BASE_URL = "https://6195170f74c1bd00176c6b65.mockapi.io/api/v1/items";
 
 class itemsService {
-  getItems() {
-    return axios.get(API_BASE_URL);
+  async getItems() {
+    return await axios.get(API_BASE_URL).then((response) => response.data);
   }
-  createItem(item) {
-    return axios.post(API_BASE_URL, item);
+  async createItem(item) {
+    return await axios.post(API_BASE_URL, item);
   }
   deleteItem(id) {
     return axios.delete(API_BASE_URL + "/" + id);

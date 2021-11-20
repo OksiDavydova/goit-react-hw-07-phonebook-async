@@ -3,11 +3,17 @@ import { toast } from "react-toastify";
 import s from "./ContactForm.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
-import { useCreateItemMutation, useGetItemsQuery } from "../../redux/itemsRTK";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getContactsItems,
+  loadingForForm,
+} from "../../redux/contacts-selector";
+import { addContactItem } from "../../redux/contacts-operation";
 
 function ContactForm() {
-  const [createItem, { isLoading }] = useCreateItemMutation();
-  const { data: contacts } = useGetItemsQuery();
+  const isLoadingAddBtn = useSelector(loadingForForm);
+  const contacts = useSelector(getContactsItems);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -30,7 +36,7 @@ function ContactForm() {
     } else if (theSecondCondition) {
       return toast.error(`${number} is already in contacts list`);
     } else {
-      createItem(data);
+      dispatch(addContactItem(data));
     }
     resetInputField();
   };
@@ -83,7 +89,7 @@ function ContactForm() {
 
         <br />
         <button type="submit" className={s.btnSubmit}>
-          {isLoading ? "Adding..." : "Add contact"}
+          {isLoadingAddBtn ? "Adding..." : "Add contact"}
         </button>
       </form>
     </div>

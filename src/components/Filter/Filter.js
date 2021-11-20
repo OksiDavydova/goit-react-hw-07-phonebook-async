@@ -1,12 +1,13 @@
 import React from "react";
 import s from "./Filter.module.css";
-import { changeFilter } from "../../redux/actions-contacts";
+import actions from "../../redux/contacts-actions";
 import { useSelector, useDispatch } from "react-redux";
 import { filterValue } from "../../redux/contacts-selector";
+const { changeFilter } = actions;
 
 export default function Filter() {
-  const filter = useSelector(filterValue);
   const dispatch = useDispatch();
+  const filter = useSelector(filterValue);
 
   return (
     <div className={s.filter_overlay}>
